@@ -1,0 +1,19 @@
+{
+  "name": "xray-monorepo",
+  "version": "1.0.0",
+  "description": "X-Ray SDK and API - Microservices Architecture",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "build:shared": "npm run build --workspace=@xray/shared",
+    "build:sdk": "npm run build --workspace=@xray/sdk",
+    "build:api": "npm run build --workspace=@xray/api",
+    "dev:api": "npm run dev --workspace=@xray/api",
+    "dev:sdk": "npm run dev --workspace=@xray/sdk",
+    "migrate": "npm run migrate --workspace=@xray/api"
+  },
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ]
+}
