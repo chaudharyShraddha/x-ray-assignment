@@ -27,7 +27,7 @@ export class FiltersRepository extends BaseRepository<Filter, FilterDomain> {
       id: uuidv4(),
       stepId: data.stepId!,
       filterType: data.filterType!,
-      config: data.config,
+      config: data.config || {},
       candidatesAffected: data.candidatesAffected!,
       candidatesRejected: data.candidatesRejected!,
       metadata: data.metadata || {},
@@ -35,7 +35,7 @@ export class FiltersRepository extends BaseRepository<Filter, FilterDomain> {
     };
 
     const entity = this.repository.create(filterData as any);
-    const saved = await this.repository.save(entity);
+    const saved = await this.repository.save(entity) as unknown as Filter;
     return this.mapToDomain(saved);
   }
 
@@ -61,7 +61,7 @@ export class FiltersRepository extends BaseRepository<Filter, FilterDomain> {
       id: entity.id,
       stepId: entity.stepId,
       filterType: entity.filterType,
-      config: entity.config,
+      config: entity.config || {},
       candidatesAffected: entity.candidatesAffected,
       candidatesRejected: entity.candidatesRejected,
       metadata: entity.metadata

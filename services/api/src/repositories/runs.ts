@@ -37,7 +37,7 @@ export class RunsRepository extends BaseRepository<RunEntity, Run> {
     };
 
     const entity = this.repository.create(runData as any);
-    const saved = await this.repository.save(entity);
+    const saved = await this.repository.save(entity) as unknown as RunEntity;
     return this.mapToDomain(saved);
   }
 

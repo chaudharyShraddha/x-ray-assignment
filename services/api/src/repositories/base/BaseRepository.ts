@@ -8,9 +8,9 @@
  * @template TDomain - Domain model type (from @xray/shared)
  */
 
-import { Repository, FindOptionsWhere } from 'typeorm';
+import { Repository, FindOptionsWhere, ObjectLiteral } from 'typeorm';
 
-export abstract class BaseRepository<TEntity, TDomain> {
+export abstract class BaseRepository<TEntity extends ObjectLiteral, TDomain> {
   protected repository: Repository<TEntity>;
 
   constructor(repository: Repository<TEntity>) {
@@ -24,7 +24,7 @@ export abstract class BaseRepository<TEntity, TDomain> {
    */
   async create(data: TDomain): Promise<TDomain> {
     const entity = this.repository.create(data as any);
-    const saved = await this.repository.save(entity);
+    const saved = await this.repository.save(entity) as unknown as TEntity;
     return this.mapToDomain(saved);
   }
 
@@ -50,7 +50,7 @@ export abstract class BaseRepository<TEntity, TDomain> {
    * @returns Domain model or null if not found
    */
   async findById(id: string): Promise<TDomain | null> {
-    const entity = await this.repository.findOne({ where: { id } as FindOptionsWhere<TEntity> });
+    const entity = await this.repository.findOne({ where: { id } as unknown as FindOptionsWhere<TEntity> });
     return entity ? this.mapToDomain(entity) : null;
   }
 

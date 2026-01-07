@@ -41,7 +41,7 @@ export class StepsRepository extends BaseRepository<Step, StepDomain> {
     };
 
     const entity = this.repository.create(stepData as any);
-    const saved = await this.repository.save(entity);
+    const saved = await this.repository.save(entity) as unknown as Step;
     return this.mapToDomain(saved);
   }
 
